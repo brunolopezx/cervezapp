@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 //TOKEN: 1//0fa-Ft94twVBlCgYIARAAGA8SNwF-L9IrMW3iFMsoZjb5j9N6K3LANXL_5IPpFRIFWHXUr661lvMyY792rk1on5KY07m_kUcQFLM
 
 void main() {
-  runApp(CervezApp());
+  runApp(const CervezApp());
 }
 
 class CervezApp extends StatelessWidget {
+  const CervezApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: "CervezApp",
       home: CervezAppHome(title: "CervezApp Home"),
     );
@@ -19,11 +21,12 @@ class CervezApp extends StatelessWidget {
 }
 
 class CervezAppHome extends StatefulWidget {
-  CervezAppHome({Key? key, this.title}) : super(key: key);
+  const CervezAppHome({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
+  // ignore: library_private_types_in_public_api
   _CervezAppHomeState createState() => _CervezAppHomeState();
 }
 
