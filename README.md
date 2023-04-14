@@ -1,6 +1,7 @@
-# cervezapp2
+# CervezApp
 
-A new Flutter project.
+Flutter project for the National Technological University.
+Author: Bruno Lopez Scidá
 
 ## Getting Started
 
