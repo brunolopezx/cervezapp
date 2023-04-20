@@ -1,7 +1,11 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
+import 'package:cervezapp2/src/authentication/screens/login/login_screen.dart';
+import 'package:cervezapp2/src/authentication/screens/signup/sign_up_screen.dart';
+import 'package:cervezapp2/src/authentication/screens/welcome-screen.dart';
+import 'package:cervezapp2/src/constants/colors.dart';
+import 'package:cervezapp2/src/themes/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 //TOKEN: 1//0fa-Ft94twVBlCgYIARAAGA8SNwF-L9IrMW3iFMsoZjb5j9N6K3LANXL_5IPpFRIFWHXUr661lvMyY792rk1on5KY07m_kUcQFLM
 
 void main() {
@@ -13,9 +17,18 @@ class CervezApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: "CervezApp",
-      home: CervezAppHome(title: "CervezApp Home"),
+    return MaterialApp(
+      theme: TAppTheme.lightTheme,
+      darkTheme: TAppTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      home: CervezAppHome(),
+      initialRoute: '/',
+      routes: {
+        '/home': (context) => CervezAppHome(),
+        '/login': (context) => LoginScreen(),
+        '/welcome': (context) => WelcomeScreen(),
+        '/signup': (context) => SignUpScreen(),
+      },
     );
   }
 }
@@ -41,47 +54,51 @@ class _CervezAppHomeState extends State<CervezAppHome> {
   Widget material() {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent,
-        title: (Text(widget.title!)),
-        actions: const [IconButton(onPressed: null, icon: Icon(Icons.home))],
+        backgroundColor: colorPrincipal,
+        title: (Text(
+          "CervezApp",
+          style: Theme.of(context).textTheme.titleLarge,
+        )),
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.pushNamed(context, '/welcome'),
+              icon: Icon(Icons.person_outline_outlined))
+        ],
       ),
       drawer: Drawer(
         child: Column(
-          children: const [
+          children: [
             DrawerHeader(
               child: Text(
                 "Menú",
-                style: TextStyle(
-                    color: Colors.greenAccent,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.displaySmall,
               ),
             ),
-            Text(" 1"),
-            Text("2"),
+            Text("Bares"),
+            Text("Promociones"),
             Text("3"),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.greenAccent,
-        items: const [
+        backgroundColor: colorPrincipal,
+        items: [
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
-                color: Colors.white,
+                color: colorSecundario,
               ),
               label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.supervised_user_circle,
-                color: Colors.white,
+                color: colorSecundario,
               ),
               label: "Profile"),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.assessment,
-                color: Colors.white,
+                color: colorSecundario,
               ),
               label: "Ayuda"),
         ],
