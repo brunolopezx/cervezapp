@@ -25,7 +25,9 @@ class SignUpFooterWidget extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/login');
+          },
           child: Text.rich(TextSpan(children: [
             TextSpan(
               text: tAlreadyHaveAccount,

@@ -20,3 +20,10 @@ const String tPassword = "Contraseña";
 const String tFullName = "Nombre Completo";
 const String tForgetPassword = "¿Olvidó su contraseña?";
 const String tSignInWithGoogle = "Inicie con Google";
+
+const String tForgetPasswordTitle = "Ingrese su e-mail!";
+const String tForgetPasswordSubTitle = "Elija una de las opciones.";
+const String tResetViaEMail = "Reset via Mail Verification";
+const String tResetViaPhone = "Reset via Phone Verification";
+const String tSignUpSubTitle = "Crea tu cuenta para empezar a buscar";
+const String tSignUpTitle = "Nueva Cuenta!";

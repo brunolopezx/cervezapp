@@ -10,6 +10,7 @@ class FormHeaderWidget extends StatelessWidget {
     this.imageHeight = 0.2,
     this.textAlign,
     this.crossAxisAlignment = CrossAxisAlignment.start,
+    required String subTitle,
   }) : super(key: key);
 
   //Variables -- Declared in Constructor

@@ -1,14 +1,16 @@
+// import 'package:cervezapp2/src/authentication/repositories/auth_repository/authentication_repository.dart';
 import 'package:cervezapp2/src/authentication/screens/signup/signup_footer_widget.dart';
 import 'package:cervezapp2/src/constants/images_strings.dart';
 import 'package:cervezapp2/src/constants/sizes.dart';
-import 'package:cervezapp2/src/constants/texts_strings.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants/texts_strings.dart';
 import 'form_header_widget.dart';
 import 'signup_form_widget.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,8 @@ class SignUpScreen extends StatelessWidget {
               children: const [
                 FormHeaderWidget(
                   image: welcomeImage,
-                  title: "Nueva cuenta",
+                  title: tSignUpTitle,
+                  subTitle: tSignUpSubTitle,
                   imageHeight: 0.20,
                 ),
                 SignUpFormWidget(),

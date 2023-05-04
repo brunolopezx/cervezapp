@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>762208438330-6e5eb82o3fsirr9oun9v2dt0is6vvmlp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.762208438330-6e5eb82o3fsirr9oun9v2dt0is6vvmlp</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCXHL-vzbMNPnDCEqFu2RbpO131YyyYWcU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>762208438330</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.cervezapp2</string>
+	<key>PROJECT_ID</key>
+	<string>cervezapp-3fcfd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cervezapp-3fcfd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:762208438330:ios:6200feb3f94801f1814d03</string>
+	<key>DATABASE_URL</key>
+	<string>https://cervezapp-3fcfd-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,3 +1,4 @@
+import 'package:cervezapp2/src/authentication/screens/login/login_footer_widget.dart';
 import 'package:cervezapp2/src/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -16,10 +17,7 @@ class LoginScreen extends StatelessWidget {
             padding: EdgeInsets.all(defaultSize),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                LoginHeaderWidget(),
-                LoginForm(),
-              ],
+              children: [LoginHeaderWidget(), LoginForm(), LoginFooterWidget()],
             ),
           ),
         ),

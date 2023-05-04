@@ -25,7 +25,9 @@ class LoginFooterWidget extends StatelessWidget {
         ),
         const SizedBox(height: tFormHeight - 20),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/signup');
+          },
           child: Text.rich(
             TextSpan(
                 text: tDontHaveAnAccount,
