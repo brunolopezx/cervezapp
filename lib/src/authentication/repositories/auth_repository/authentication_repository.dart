@@ -29,3 +29,24 @@ class AuthenticationRepository {
     await _firebaseAuth.signOut();
   }
 }
+
+
+// Future<void> sendUserDataToDB() async {
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   var currentUser = _auth.currentUser;
+
+//   CollectionReference _collectionRef =
+//       FirebaseFirestore.instance.collection("users-form-data");
+//   return _collectionRef
+//       .doc(currentUser!.email)
+//       .set({
+//         "name": _nameController.text,
+//         "phone": _phoneController.text,
+//         "dob": _dobController.text,
+//         "gender": _genderController.text,
+//         "age": _ageController.text,
+//       })
+//       .then((value) => Navigator.push(
+//           context, MaterialPageRoute(builder: (_) => BottomNavController())))
+//       .catchError((error) => print("something is wrong. $error"));
+// }

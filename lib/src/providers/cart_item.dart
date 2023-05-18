@@ -1,9 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/cart_item.dart';
+class CartItem {
+  final String id;
+  final String nombre;
+  final int cantidad;
+  final double precio;
+  final String fecha;
 
-FirebaseFirestore db = FirebaseFirestore.instance;
+  CartItem(
+      {required this.id,
+      required this.nombre,
+      required this.cantidad,
+      required this.precio,
+      required this.fecha});
+}
 
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};

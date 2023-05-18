@@ -1,7 +1,10 @@
+// @dart=2.19
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/colors.dart';
+import '../../../providers/cart_item.dart';
 
 class CervezasListWidget extends StatelessWidget {
   static Stream<QuerySnapshot> getStream() => FirebaseFirestore.instance
@@ -13,6 +16,7 @@ class CervezasListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context, listen: false);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -48,7 +52,12 @@ class CervezasListWidget extends StatelessWidget {
                       style: TextStyle(color: colorSecundario),
                     ),
                     trailing: MaterialButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          cart.addItem(
+                              snapshot.data!.docs[i].id,
+                              double.parse(snapshot.data?.docs[i]["precio"]),
+                              snapshot.data?.docs[i]["nombre"],
+                              TimeOfDay.now().toString());
                           Navigator.pushNamed(context, '/ventas');
                         },
                         child: Icon(Icons.shopping_cart_outlined)),

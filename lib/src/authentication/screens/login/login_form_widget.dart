@@ -1,3 +1,4 @@
+// @dart=2.19
 import 'package:cervezapp2/src/constants/sizes.dart';
 import 'package:cervezapp2/src/constants/texts_strings.dart';
 import 'package:flutter/material.dart';

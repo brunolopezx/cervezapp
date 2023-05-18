@@ -1,3 +1,4 @@
+// @dart=2.19
 import 'dart:io';
 import 'package:cervezapp2/src/authentication/screens/bares/bares_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/edit_delete_bares.dart';
@@ -13,8 +14,10 @@ import 'package:cervezapp2/src/authentication/screens/ventas/ventas_screen.dart'
 import 'package:cervezapp2/src/authentication/screens/welcome-screen.dart';
 import 'package:cervezapp2/src/constants/colors.dart';
 import 'package:cervezapp2/src/constants/images_strings.dart';
+import 'package:cervezapp2/src/providers/cart_item.dart';
 import 'package:cervezapp2/src/themes/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,27 +36,30 @@ class CervezApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: TAppTheme.lightTheme,
-      darkTheme: TAppTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      home: CervezAppHome(),
-      initialRoute: '/',
-      routes: {
-        '/home': (context) => CervezAppHome(),
-        '/login': (context) => LoginScreen(),
-        '/welcome': (context) => WelcomeScreen(),
-        '/signup': (context) => SignUpScreen(),
-        '/forgetPassword': (context) => ForgetPasswordMailScreen(),
-        '/otp': (context) => OTPScreen(),
-        '/bares': (context) => BaresListWidget(),
-        '/saveBares': (context) => SaveBaresPage(),
-        '/editDeleteBares': (context) => EditDeleteBares(),
-        '/cervezas': (context) => CervezasListWidget(),
-        '/saveCervezas': (context) => SaveCervezasPage(),
-        '/editDeleteCervezas': (context) => EditDeleteCervezas(),
-        '/ventas': (context) => VentasScreen(),
-      },
+    return MultiProvider(
+      providers: [ChangeNotifierProvider.value(value: Cart())],
+      child: MaterialApp(
+        theme: TAppTheme.lightTheme,
+        darkTheme: TAppTheme.darkTheme,
+        themeMode: ThemeMode.system,
+        home: CervezAppHome(),
+        initialRoute: '/',
+        routes: {
+          '/home': (context) => CervezAppHome(),
+          '/login': (context) => LoginScreen(),
+          '/welcome': (context) => WelcomeScreen(),
+          '/signup': (context) => SignUpScreen(),
+          '/forgetPassword': (context) => ForgetPasswordMailScreen(),
+          '/otp': (context) => OTPScreen(),
+          '/bares': (context) => BaresListWidget(),
+          '/saveBares': (context) => SaveBaresPage(),
+          '/editDeleteBares': (context) => EditDeleteBares(),
+          '/cervezas': (context) => CervezasListWidget(),
+          '/saveCervezas': (context) => SaveCervezasPage(),
+          '/editDeleteCervezas': (context) => EditDeleteCervezas(),
+          '/ventas': (context) => VentasScreen(),
+        },
+      ),
     );
   }
 }
@@ -132,6 +138,9 @@ class _CervezAppHomeState extends State<CervezAppHome> {
                 padding: const EdgeInsets.all(20),
                 width: double.infinity,
                 child: TextButton(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.black)),
                     onPressed: () {
                       Navigator.pushNamed(context, '/bares');
                     },
@@ -141,9 +150,7 @@ class _CervezAppHomeState extends State<CervezAppHome> {
           ),
         ),
       ),
-      body: Container(
-        child: Image(image: AssetImage(welcomeImage)),
-      ),
+      body: Container(),
     );
   }
 
