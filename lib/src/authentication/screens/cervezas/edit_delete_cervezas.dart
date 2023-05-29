@@ -28,6 +28,7 @@ class _FormEdit extends StatelessWidget {
   final abvController = TextEditingController();
   final precioController = TextEditingController();
   final idController = TextEditingController();
+  final idBar = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,9 @@ class _FormEdit extends StatelessWidget {
     ibuController.text = args["ibu"];
     abvController.text = args["abv"];
     precioController.text = args["precio"];
-    print(idController.text);
+    idBar.text = args["idBar"];
+
+    print(idController.text + "-------------------------------------");
 
     return SingleChildScrollView(
       child: Container(
@@ -122,7 +125,7 @@ class _FormEdit extends StatelessWidget {
                     if (value!.isEmpty) {
                       return "Ingrese el ABV";
                     }
-                    if (int.tryParse(value) == null) {
+                    if (double.tryParse(value) == null) {
                       return "Solo se permiten números";
                     }
                     return null;
@@ -161,7 +164,9 @@ class _FormEdit extends StatelessWidget {
                           onPressed: () async {
                             if (_FormKey.currentState!.validate()) {
                               await FirebaseFirestore.instance
-                                  .collection("cervezas")
+                                  .collection("bares")
+                                  .doc(idBar.text)
+                                  .collection("beers")
                                   .doc(idController.text)
                                   .update({
                                 'nombre': nombreController.text,
@@ -201,7 +206,9 @@ class _FormEdit extends StatelessWidget {
                       child: ElevatedButton(
                           onPressed: () async {
                             await FirebaseFirestore.instance
-                                .collection("cervezas")
+                                .collection("bares")
+                                .doc(idBar.text)
+                                .collection("beers")
                                 .doc(idController.text)
                                 .delete()
                                 .then((_) {

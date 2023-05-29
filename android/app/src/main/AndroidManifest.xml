@@ -4,6 +4,8 @@
         android:label="cervezapp2"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBahlvbu2X-QTohcofjxSgRSZyRLH5OB2g"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -18,10 +20,7 @@
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              
-              android:value="AIzaSyBahlvbu2X-QTohcofjxSgRSZyRLH5OB2g"
-              />
+              android:resource="@style/NormalTheme"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -33,4 +32,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </manifest>

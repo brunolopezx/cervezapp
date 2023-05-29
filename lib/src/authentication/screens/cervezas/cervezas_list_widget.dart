@@ -7,28 +7,32 @@ import '../../../constants/colors.dart';
 import '../../../providers/cart_item.dart';
 
 class CervezasListWidget extends StatelessWidget {
-  static Stream<QuerySnapshot> getStream() => FirebaseFirestore.instance
-      .collection("cervezas")
-      .orderBy("nombre")
-      .snapshots();
+  final idBar = TextEditingController();
 
-  const CervezasListWidget();
+  CervezasListWidget();
 
   @override
   Widget build(BuildContext context) {
+    final Map args = ModalRoute.of(context)?.settings.arguments as Map;
+    idBar.text = args["idBar"];
     final cart = Provider.of<Cart>(context, listen: false);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.pushNamed(context, '/saveCervezas');
+          Navigator.pushNamed(context, '/saveCervezas',
+              arguments: {"idBar": idBar.text});
         },
       ),
       appBar: AppBar(
         title: Text("Cervezas"),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("cervezas").snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection("bares")
+            .doc(idBar.text)
+            .collection("beers")
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -43,8 +47,6 @@ class CervezasListWidget extends StatelessWidget {
                 itemBuilder: (_, i) {
                   Map<String, dynamic> data =
                       items[i].data() as Map<String, dynamic>;
-                  print("______");
-                  print(data);
 
                   return ListTile(
                     title: Text(
@@ -74,7 +76,8 @@ class CervezasListWidget extends StatelessWidget {
                             "sabor": snapshot.data?.docs[i]["sabor"],
                             "ibu": snapshot.data?.docs[i]["ibu"],
                             "abv": snapshot.data?.docs[i]["abv"],
-                            "precio": snapshot.data?.docs[i]["precio"]
+                            "precio": snapshot.data?.docs[i]["precio"],
+                            "idBar": idBar.text
                           });
                     },
                   );

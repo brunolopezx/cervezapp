@@ -1,5 +1,7 @@
 // @dart=2.19
+import 'dart:async';
 import 'dart:io';
+import 'package:cervezapp2/src/authentication/maps/locations.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/bares_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/edit_delete_bares.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/save_page.dart';
@@ -17,11 +19,13 @@ import 'package:cervezapp2/src/constants/images_strings.dart';
 import 'package:cervezapp2/src/providers/cart_item.dart';
 import 'package:cervezapp2/src/themes/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 //TOKEN: 1//0fa-Ft94twVBlCgYIARAAGA8SNwF-L9IrMW3iFMsoZjb5j9N6K3LANXL_5IPpFRIFWHXUr661lvMyY792rk1on5KY07m_kUcQFLM
+//flutter run --no-sound-null-safety
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,6 +80,13 @@ class CervezAppHome extends StatefulWidget {
 
 class _CervezAppHomeState extends State<CervezAppHome> {
   int _elementoSeleccionado = 0;
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
+
+  static final CameraPosition _default = CameraPosition(
+    target: patioOlmos(),
+    zoom: 20,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -88,69 +99,112 @@ class _CervezAppHomeState extends State<CervezAppHome> {
         backgroundColor: colorPrincipal,
         title: (Text(
           "CervezApp",
-          style: Theme.of(context).textTheme.titleLarge,
+          style: TextStyle(
+            color: colorSecundario,
+            fontWeight: FontWeight.w400,
+          ),
         )),
         actions: [
           IconButton(
-              onPressed: () => Navigator.pushNamed(context, '/welcome'),
-              icon: Icon(Icons.person_outline_outlined))
+            onPressed: () => Navigator.pushNamed(context, '/welcome'),
+            icon: Icon(Icons.person_outline_outlined),
+            color: colorSecundario,
+          )
         ],
       ),
-      // drawer: Drawer(
-      //   child: Column(
-      //     children: [
-      //       DrawerHeader(
-      //         child: Text(
-      //           "Menú",
-      //           style: Theme.of(context).textTheme.displaySmall,
-      //         ),
-      //       ),
-      //       TextButton(
-      //           onPressed: () {
-      //             Navigator.pushNamed(context, '/bares');
-      //           },
-      //           child: Text("Bares")),
-      //       TextButton(
-      //           onPressed: () {
-      //             Navigator.pushNamed(context, '/promociones');
-      //           },
-      //           child: Text("Promociones")),
-      //     ],
-      //   ),
-      // ),
       drawer: Drawer(
         child: Container(
-          color: colorPrincipal,
+          color: colorSecundario,
           child: Column(
             children: [
               Container(
-                width: 100,
-                height: 100,
+                width: 80,
+                height: 80,
                 margin: const EdgeInsets.only(top: 50, bottom: 20),
-                child: Image(image: AssetImage(welcomeImage)),
+                child: Image(
+                  image: AssetImage(welcomeImage),
+                  alignment: Alignment.bottomLeft,
+                ),
               ),
               const Text(
                 "Menú",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 20,
+                    color: Colors.white),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 30),
-                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.only(top: 5),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 width: double.infinity,
                 child: TextButton(
                     style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.black)),
+                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.amberAccent),
+                      elevation: MaterialStateProperty.all(2),
+                    ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/bares');
                     },
                     child: Text("Bares")),
               ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                width: double.infinity,
+                child: TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.amberAccent),
+                      elevation: MaterialStateProperty.all(2),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/bares');
+                    },
+                    child: Text("Promociones")),
+              ),
             ],
           ),
         ),
       ),
-      body: Container(),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 150,
+            width: double.infinity,
+            child: Container(
+              child: Image(
+                image: AssetImage("assets/images/Cerve.png"),
+                fit: BoxFit.cover,
+                colorBlendMode: BlendMode.colorBurn,
+                alignment: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          SizedBox(
+            height: 280,
+            width: double.infinity,
+            child: Container(
+              child: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: _default,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                markers: createMarker(),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

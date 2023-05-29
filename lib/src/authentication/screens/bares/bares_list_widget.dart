@@ -50,7 +50,9 @@ class BaresListWidget extends StatelessWidget {
                     ),
                     shape: BeveledRectangleBorder(),
                     onTap: () {
-                      Navigator.pushNamed(context, '/cervezas');
+                      Navigator.pushNamed(context, '/cervezas', arguments: {
+                        "idBar": snapshot.data?.docs[i].id,
+                      });
                     },
                     onLongPress: () {
                       Navigator.pushNamed(context, '/editDeleteBares',

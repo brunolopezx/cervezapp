@@ -18,3 +18,14 @@ final Map<String, Object> preferenceMap = {
   ],
   'payer': {'name': 'Bruno Lopez', 'email': 'brunolopez@gmail.com'},
 };
+
+
+//TARJETAS
+//NRO: 5031 7557 3453 0604  CCV: 123   FC: 11/25
+//NRO: 4509 9535 6623 3704  CCV: 123   FC: 11/25
+//NRO: 3711 803032 57522    CCV: 1234   FC: 11/25
+
+//NOMBRES
+//APRO    DNI: 12345678
+//FUND    (FONDOS INSUFICIENTES)
+//SECU    (CCV INVALIDO)
