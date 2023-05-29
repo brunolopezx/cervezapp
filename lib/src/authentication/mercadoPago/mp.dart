@@ -16,5 +16,5 @@ final Map<String, Object> preferenceMap = {
       'unit_price': 1500,
     }
   ],
-  'payer': {'name': 'Buyer G.', 'email': 'test@gmail.com'},
+  'payer': {'name': 'Bruno Lopez', 'email': 'brunolopez@gmail.com'},
 };
