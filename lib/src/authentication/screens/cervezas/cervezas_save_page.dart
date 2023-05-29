@@ -26,9 +26,12 @@ class _FormSave extends StatelessWidget {
   final ibuController = TextEditingController();
   final abvController = TextEditingController();
   final precioController = TextEditingController();
+  final idBar = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final Map args = ModalRoute.of(context)?.settings.arguments as Map;
+    idBar.text = args["idBar"];
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
@@ -152,7 +155,9 @@ class _FormSave extends StatelessWidget {
                             if (_FormKey.currentState!.validate()) {
                               print("valido");
                               await FirebaseFirestore.instance
-                                  .collection("cervezas")
+                                  .collection("bares")
+                                  .doc(idBar.text)
+                                  .collection("beers")
                                   .add({
                                 'nombre': nombreController.text,
                                 'tipo': tipoController.text,

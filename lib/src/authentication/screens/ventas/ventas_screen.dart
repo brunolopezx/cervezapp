@@ -60,12 +60,6 @@ class VentasScreen extends StatelessWidget {
                     }
                   ],
                   'payer': {'name': 'Buyer G.', 'email': 'test@gmail.com'},
-                  "payment_methods": {
-                    "id": "account_money",
-                    "excluded_payment_types": [
-                      {"id": "debit_card"},
-                    ]
-                  },
                 };
 
                 return Dismissible(
