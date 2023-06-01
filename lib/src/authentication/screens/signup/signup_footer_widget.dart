@@ -5,7 +5,7 @@ import '../../../constants/texts_strings.dart';
 import '../../repositories/auth_repository/auth.dart';
 
 class SignUpFooterWidget extends StatelessWidget {
-  const SignUpFooterWidget({
+  SignUpFooterWidget({
     Key? key,
   }) : super(key: key);
 
@@ -51,7 +51,7 @@ class SignUpFooterWidget extends StatelessWidget {
             TextSpan(
                 text: "  " + tLogin, style: TextStyle(color: Colors.blueAccent))
           ])),
-        )
+        ),
       ],
     );
   }

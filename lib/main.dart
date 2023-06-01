@@ -8,11 +8,13 @@ import 'package:cervezapp2/src/authentication/screens/bares/save_page.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/cervezas_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/cervezas_save_page.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/edit_delete_cervezas.dart';
+import 'package:cervezapp2/src/authentication/screens/faq.dart';
 import 'package:cervezapp2/src/authentication/screens/forgotPassword/forget_password_mail_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/forgotPassword/otp_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/login/login_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/profile.dart';
 import 'package:cervezapp2/src/authentication/screens/signup/sign_up_screen.dart';
+import 'package:cervezapp2/src/authentication/screens/terminos.dart';
 import 'package:cervezapp2/src/authentication/screens/ventas/ventas_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/welcome-screen.dart';
 import 'package:cervezapp2/src/constants/colors.dart';
@@ -77,6 +79,8 @@ class CervezApp extends StatelessWidget {
           '/ventas': (context) => VentasScreen(),
           '/auth': (context) => AuthPage(),
           '/profile': (context) => ProfileScreen(),
+          '/faq': (context) => FAQScreen(),
+          '/terminos': (context) => TerminosScreen(),
         },
       ),
     );
@@ -193,6 +197,32 @@ class _CervezAppHomeState extends State<CervezAppHome> {
               //         color: Colors.white, fontStyle: FontStyle.italic),
               //   ),
               // ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/faq');
+                      },
+                      child: Text.rich(
+                        TextSpan(text: 'FAQ'),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/terminos');
+                      },
+                      child: Text.rich(
+                        TextSpan(text: 'Términos y Condiciones'),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
