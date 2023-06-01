@@ -40,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                       onPressed: () => Navigator.pushNamed(context, '/login'),
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(),
-                        foregroundColor: colorSecundario,
+                        backgroundColor: colorSecundario,
                         side: BorderSide(color: colorSecundario),
                         padding: EdgeInsets.symmetric(vertical: buttonHeight),
                       ),
@@ -54,7 +54,7 @@ class WelcomeScreen extends StatelessWidget {
                       onPressed: () => Navigator.pushNamed(context, '/signup'),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(),
-                        backgroundColor: blanco,
+                        backgroundColor: colorPrincipal,
                         foregroundColor: colorSecundario,
                         side: BorderSide(color: colorSecundario),
                         padding: EdgeInsets.symmetric(vertical: buttonHeight),

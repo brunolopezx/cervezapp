@@ -1,7 +1,7 @@
 // @dart=2.19
 import 'dart:async';
-import 'dart:io';
 import 'package:cervezapp2/src/authentication/maps/locations.dart';
+import 'package:cervezapp2/src/authentication/screens/auth_page.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/bares_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/edit_delete_bares.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/save_page.dart';
@@ -11,6 +11,7 @@ import 'package:cervezapp2/src/authentication/screens/cervezas/edit_delete_cerve
 import 'package:cervezapp2/src/authentication/screens/forgotPassword/forget_password_mail_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/forgotPassword/otp_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/login/login_screen.dart';
+import 'package:cervezapp2/src/authentication/screens/profile.dart';
 import 'package:cervezapp2/src/authentication/screens/signup/sign_up_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/ventas/ventas_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/welcome-screen.dart';
@@ -18,12 +19,15 @@ import 'package:cervezapp2/src/constants/colors.dart';
 import 'package:cervezapp2/src/constants/images_strings.dart';
 import 'package:cervezapp2/src/providers/cart_item.dart';
 import 'package:cervezapp2/src/themes/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+
 //TOKEN: 1//0fa-Ft94twVBlCgYIARAAGA8SNwF-L9IrMW3iFMsoZjb5j9N6K3LANXL_5IPpFRIFWHXUr661lvMyY792rk1on5KY07m_kUcQFLM
 //flutter run --no-sound-null-safety
 
@@ -32,6 +36,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await Permission.camera.status;
+  if (await Permission.contacts.request().isGranted) {
+    // Either the permission was already granted before or the user just granted it.
+  }
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.location,
+    Permission.storage,
+  ].request();
+  print(statuses[Permission.location]);
   runApp(const CervezApp());
 }
 
@@ -62,6 +75,8 @@ class CervezApp extends StatelessWidget {
           '/saveCervezas': (context) => SaveCervezasPage(),
           '/editDeleteCervezas': (context) => EditDeleteCervezas(),
           '/ventas': (context) => VentasScreen(),
+          '/auth': (context) => AuthPage(),
+          '/profile': (context) => ProfileScreen(),
         },
       ),
     );
@@ -79,18 +94,16 @@ class CervezAppHome extends StatefulWidget {
 }
 
 class _CervezAppHomeState extends State<CervezAppHome> {
-  int _elementoSeleccionado = 0;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-
   static final CameraPosition _default = CameraPosition(
     target: patioOlmos(),
-    zoom: 20,
+    zoom: 15,
   );
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isAndroid ? material() : cupertino();
+    return material();
   }
 
   Widget material() {
@@ -106,7 +119,12 @@ class _CervezAppHomeState extends State<CervezAppHome> {
         )),
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, '/welcome'),
+            onPressed: () => {
+              if (FirebaseAuth.instance.currentUser == null)
+                {Navigator.pushNamed(context, '/welcome')}
+              else
+                {Navigator.pushNamed(context, '/profile')}
+            },
             icon: Icon(Icons.person_outline_outlined),
             color: colorSecundario,
           )
@@ -166,6 +184,15 @@ class _CervezAppHomeState extends State<CervezAppHome> {
                     },
                     child: Text("Promociones")),
               ),
+              // Container(
+              //   padding:
+              //       const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+              //   child: Text(
+              //     'Cuenta: ' + getName().toString(),
+              //     style: TextStyle(
+              //         color: Colors.white, fontStyle: FontStyle.italic),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -206,102 +233,5 @@ class _CervezAppHomeState extends State<CervezAppHome> {
         ],
       ),
     );
-  }
-
-  Widget cupertino() {
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Colors.white,
-              ),
-              label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.supervised_user_circle,
-                color: Colors.white,
-              ),
-              label: "Profile"),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.assessment,
-                color: Colors.white,
-              ),
-              label: "Ayuda"),
-        ],
-        currentIndex: _elementoSeleccionado,
-        onTap: _itemPulsado,
-      ),
-      backgroundColor: Colors.greenAccent,
-      tabBuilder: (context, index) {
-        switch (index) {
-          case 0:
-            return CupertinoTabView(
-              builder: (context) {
-                return CupertinoPageScaffold(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text("$index: Inicio"),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          case 1:
-            return CupertinoTabView(
-              builder: (context) {
-                return CupertinoPageScaffold(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text("$index: Perfil"),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          case 2:
-            return CupertinoTabView(
-              builder: (context) {
-                return CupertinoPageScaffold(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text("$index: Ayuda"),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          default:
-            return CupertinoTabView(
-              builder: (context) {
-                return CupertinoPageScaffold(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text("$index: Inicio"),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-        }
-      },
-    );
-  }
-
-//Funciones
-  void _itemPulsado(int index) {
-    setState(() {
-      _elementoSeleccionado = index;
-    });
   }
 }

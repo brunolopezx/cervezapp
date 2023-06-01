@@ -1,3 +1,5 @@
+import 'package:cervezapp2/src/authentication/repositories/auth_repository/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cervezapp2/src/constants/sizes.dart';
 
@@ -6,8 +8,8 @@ import '../../../constants/texts_strings.dart';
 import '../signup/form_header_widget.dart';
 
 class ForgetPasswordMailScreen extends StatelessWidget {
-  const ForgetPasswordMailScreen({Key? key}) : super(key: key);
-
+  ForgetPasswordMailScreen({Key? key}) : super(key: key);
+  final _user = Auth().currentUser;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,7 +42,9 @@ class ForgetPasswordMailScreen extends StatelessWidget {
                       SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                FirebaseAuth.instance.sendPasswordResetEmail(
+                                    email: _user!.email.toString());
                                 Navigator.pushNamed(context, '/otp');
                               },
                               child: const Text(tNext))),

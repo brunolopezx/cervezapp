@@ -20,7 +20,7 @@ class SignUpScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(defaultSize),
             child: Column(
-              children: const [
+              children: [
                 FormHeaderWidget(
                   image: welcomeImage,
                   title: tSignUpTitle,
