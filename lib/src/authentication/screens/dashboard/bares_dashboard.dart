@@ -16,7 +16,7 @@ class BaresDashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bares"),
+        title: Text("Dashboard"),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("bares").snapshots(),

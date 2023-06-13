@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
 
-class BaresPromoScreen extends StatelessWidget {
+class BaresListCliente extends StatelessWidget {
   static Stream<QuerySnapshot> getStream() => FirebaseFirestore.instance
       .collection("bares")
       .orderBy("nombre")
       .snapshots();
 
-  const BaresPromoScreen();
+  const BaresListCliente();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Promociones"),
+        title: Text("Bares"),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("bares").snapshots(),
@@ -44,10 +44,11 @@ class BaresPromoScreen extends StatelessWidget {
                     ),
                     shape: BeveledRectangleBorder(),
                     onTap: () {
-                      Navigator.pushNamed(context, '/promociones', arguments: {
-                        "idBar": snapshot.data?.docs[i].id,
-                        "nombreBar": snapshot.data?.docs[i]["nombre"],
-                      });
+                      Navigator.pushNamed(context, '/cervezasListCliente',
+                          arguments: {
+                            "idBar": snapshot.data?.docs[i].id,
+                            "nombreBar": snapshot.data?.docs[i]['nombre']
+                          });
                     },
                   );
                 }),

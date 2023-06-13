@@ -56,7 +56,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
       }
     }
     addUserDetails(_fullName.text.trim(), _email.text.trim(),
-        int.parse(_phoneNo.text.trim()), _password.text.trim());
+        int.parse(_phoneNo.text.trim()), _password.text.trim(), rool);
   }
 
   void wrongEmailMessage() {
@@ -99,15 +99,29 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
   }
 
   bool invisible = true;
+  var options = ['Dueño', 'Cliente'];
+  var _currentItemSelected = 'Cliente';
+  var rool = 'Cliente';
 
-  Future addUserDetails(
-      String nombre, String email, int tel, String password) async {
-    await FirebaseFirestore.instance.collection("users").add({
+  Future addUserDetails(String nombre, String email, int tel, String password,
+      String rool) async {
+    var user = FirebaseAuth.instance.currentUser;
+    CollectionReference ref =
+        await FirebaseFirestore.instance.collection('users');
+    ref.doc(user!.uid).set({
       'nombre': nombre,
       'telefono': tel,
       'email': email,
       'password': password,
+      'rool': rool,
     });
+    // await FirebaseFirestore.instance.collection("users").add({
+    //   'nombre': nombre,
+    //   'telefono': tel,
+    //   'email': email,
+    //   'password': password,
+    //   'rool': rool,
+    // });
   }
 
   Widget build(BuildContext context) {
@@ -192,6 +206,46 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               ),
             ),
             const SizedBox(height: tFormHeight - 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Cuenta de: ",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
+                ),
+                DropdownButton<String>(
+                  dropdownColor: Colors.blue[900],
+                  isDense: false,
+                  isExpanded: false,
+                  iconEnabledColor: Colors.black,
+                  focusColor: Colors.black,
+                  items: options.map((String dropDownStringItem) {
+                    return DropdownMenuItem<String>(
+                      value: dropDownStringItem,
+                      child: Text(
+                        dropDownStringItem,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (newValueSelected) {
+                    setState(() {
+                      _currentItemSelected = newValueSelected!;
+                      rool = newValueSelected;
+                    });
+                  },
+                  value: _currentItemSelected,
+                ),
+              ],
+            ),
+            const SizedBox(height: tFormHeight - 10),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -209,7 +263,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                     });
                     CircularProgressIndicator();
                   }
-                  Navigator.pushNamed(context, '/auth');
+                  Navigator.pushNamed(context, '/login');
                   dispose();
                 },
                 child: Text(tSignup.toUpperCase()),

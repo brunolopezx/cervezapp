@@ -2,6 +2,8 @@ import 'package:cervezapp2/src/authentication/repositories/auth_repository/auth.
 import 'package:cervezapp2/src/constants/images_strings.dart';
 import 'package:cervezapp2/src/constants/sizes.dart';
 import 'package:cervezapp2/src/constants/texts_strings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginFooterWidget extends StatelessWidget {
@@ -11,6 +13,31 @@ class LoginFooterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void route() {
+      User? user = FirebaseAuth.instance.currentUser;
+      // ignore: unused_local_variable
+      var kk = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          if (documentSnapshot.get('rool') == "Dueño") {
+            Navigator.pushNamed(context, '/home');
+          } else {
+            Navigator.pushNamed(context, '/clienteHome');
+          }
+        } else {
+          print('Document does not exist on the database');
+        }
+      });
+    }
+
+    Future sign() async {
+      await Auth().singInWithGoogle();
+      route();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -21,7 +48,7 @@ class LoginFooterWidget extends StatelessWidget {
           child: OutlinedButton.icon(
             icon: const Image(image: AssetImage(googleLogo), width: 20.0),
             onPressed: () async {
-              await Auth().singInWithGoogle().then((_) {
+              await sign().then((_) {
                 var snackBar = SnackBar(
                   content: Text("Inicio con Google exitoso"),
                   action: SnackBarAction(
@@ -30,7 +57,7 @@ class LoginFooterWidget extends StatelessWidget {
                 CircularProgressIndicator();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               });
-              Navigator.pushNamed(context, '/auth');
+              // Navigator.pushNamed(context, '/auth');
             },
             label: const Text(
               tSignInWithGoogle,

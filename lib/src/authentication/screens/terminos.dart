@@ -53,7 +53,7 @@ class TerminosScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '1. OPERACIONES HABILIDATAS',
+                  '1. OPERACIONES HABILITADAS',
                   style: TextStyle(
                       color: colorAccent, decoration: TextDecoration.underline),
                 ),

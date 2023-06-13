@@ -18,6 +18,7 @@ class _FAQScreenState extends State<FAQScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          color: Colors.black,
           padding: EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -36,44 +37,115 @@ class _FAQScreenState extends State<FAQScreen> {
                       ),
                     ),
                   ),
-                  Text(
-                    'Tienes alguna duda o quieres comunicarte con nosotros?',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: colorAccent,
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ExpansionTile(
+                    collapsedIconColor: Colors.black,
+                    iconColor: Colors.black,
+                    collapsedBackgroundColor: Colors.black,
+                    title: Text(
+                      'Tienes alguna duda o quieres comunicarte con nosotros?',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
               ),
+              SizedBox(
+                height: 10,
+              ),
               ExpansionTile(
-                title: Text('Cómo realizo una compra?'),
+                collapsedBackgroundColor: colorPrincipal,
+                textColor: Colors.blue.shade400,
+                collapsedShape: OutlineInputBorder(),
+                shape: OutlineInputBorder(),
+                title: Text(
+                  'Cómo realizo una compra?',
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
                 children: [
                   Text(
-                      'Primero debe crearse una cuenta, luego, en el home haga click en el botón de arriba a la izquierda para abrir el menú. Una vez ahí, seleccione la opción *Bares* para mostrar los bares disponibles. Elija el bar en el que se encuentra y la bebida que desee, pulse el botón *Comprar*, seleccione el método de pago y listo!')
+                      '\n Primero debe crearse una cuenta, luego, \n ' +
+                          ' en el home haga click en el botón de arriba a la \n' +
+                          ' izquierda para abrir el menú. \n' +
+                          ' Una vez ahí, seleccione la opción BARES para mostrar los bares disponibles. Elija el bar en el que se encuentra \n' +
+                          ' y la bebida que desee, pulse el botón COMPRAR, seleccione el método de pago y listo!',
+                      style: TextStyle(color: Colors.white))
                 ],
               ),
-              ExpansionTile(
-                title: Text('Qué métodos de pago aceptan?'),
-                children: [
-                  Text("Los métodos de pago aceptados son: \n" +
-                      " *Tarjeta de crédito \n" +
-                      " *Tarjeta de débito \n" +
-                      " *Efectivo en caja"),
-                ],
+              SizedBox(
+                height: 5,
               ),
               ExpansionTile(
-                title: Text('Cómo creo un usuario?'),
+                collapsedBackgroundColor: colorPrincipal,
+                textColor: Colors.blue.shade400,
+                collapsedShape: OutlineInputBorder(),
+                shape: OutlineInputBorder(),
+                title: Text(
+                  'Qué métodos de pago aceptan?',
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
                 children: [
                   Text(
-                      'En el menú principal, haga click a su derecha en el ícono de usuarios. Ahí seleccione *SIGN UP* y complete con sus datos para crear su cuenta')
+                    "Los métodos de pago aceptados son: \n" +
+                        " -Tarjeta de crédito \n" +
+                        " -Tarjeta de débito \n" +
+                        " -Efectivo en caja",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
+              SizedBox(
+                height: 5,
+              ),
               ExpansionTile(
-                title: Text('Contanctame al email'),
+                collapsedBackgroundColor: colorPrincipal,
+                textColor: Colors.blue.shade400,
+                collapsedShape: OutlineInputBorder(),
+                shape: OutlineInputBorder(),
+                title: Text(
+                  'Cómo creo un usuario?',
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
+                children: [
+                  Text(
+                      'En el menú principal, haga click a su derecha en el ícono de usuarios. \n' +
+                          'Ahí seleccione SIGN UP y complete con sus datos para crear su cuenta',
+                      style: TextStyle(color: Colors.white)),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              ExpansionTile(
+                collapsedBackgroundColor: colorPrincipal,
+                textColor: Colors.blue.shade400,
+                collapsedShape: OutlineInputBorder(),
+                shape: OutlineInputBorder(),
+                title: Text(
+                  'Contanctame al email',
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
                 children: [
                   Text(
                     'Enviar email a: brunolopez164@gmail.com',
-                    style: TextStyle(color: colorSecundario),
+                    style: TextStyle(color: Colors.white),
                   )
                 ],
               ),

@@ -52,13 +52,4 @@ class Auth extends ChangeNotifier {
     await FirebaseAuth.instance.signInWithCredential(_credential);
     notifyListeners();
   }
-
-  getUsers() async {}
-
-  // Future sendUserDataToDB() async {
-  //   await FirebaseFirestore.instance.collection("users").add({
-  //     "name": gUser!.displayName.toString(),
-  //     "email": gUser!.email.toString(),
-  //   });
-  // }
 }

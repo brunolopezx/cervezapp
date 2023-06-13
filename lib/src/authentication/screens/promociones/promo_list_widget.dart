@@ -6,17 +6,18 @@ import '../../../constants/colors.dart';
 
 class PromocionesScreen extends StatelessWidget {
   final idBar = TextEditingController();
-
+  final nombreBar = TextEditingController();
   PromocionesScreen();
 
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context)?.settings.arguments as Map;
     idBar.text = args["idBar"];
+    nombreBar.text = args["nombreBar"];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Promociones"),
+        title: Text("Promociones de " + nombreBar.text),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

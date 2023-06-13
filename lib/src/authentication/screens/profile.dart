@@ -1,12 +1,19 @@
 //@dart = 2.19
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../repositories/auth_repository/auth.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   final _user = Auth().currentUser;
 
   getEmail() {
@@ -21,7 +28,7 @@ class ProfileScreen extends StatelessWidget {
     if (_user!.displayName == null) {
       return 'N/A';
     } else {
-      return _user!.displayName.toString();
+      return _user!.displayName;
     }
   }
 
@@ -36,65 +43,122 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Logueado"),
-        centerTitle: true,
-        actions: [
-          TextButton(
-            child: Icon(
-              Icons.logout,
-              color: Colors.black,
-            ),
-            onPressed: () async {
-              await Auth().desloguear().then((_) async {
-                await showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          title: Text('Sesión cerrada...'),
-                          icon: Icon(Icons.assignment_ind_rounded),
-                          actions: [
-                            TextButton(
-                              child: Text("Ok"),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            )
-                          ],
-                        ));
-              });
-              if (FirebaseAuth.instance.currentUser == null) {
-                CircularProgressIndicator();
-                Navigator.pushNamed(context, '/home');
-              } else
-                return;
-            },
-          )
-        ],
-      ),
-      body: Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.all(5),
-              child: Image(
-                image: AssetImage(
-                  'assets/images/profile.png',
-                ),
-                width: 100,
-                height: 100,
-                alignment: Alignment.topCenter,
+        appBar: AppBar(
+          title: Text("Logueado"),
+          centerTitle: true,
+          actions: [
+            TextButton(
+              child: Icon(
+                Icons.logout,
+                color: Colors.black,
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text("Email: " + getEmail()),
-            Text("Nombre: " + getName()),
+              onPressed: () async {
+                await Auth().desloguear().then((_) async {
+                  await showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: Text('Sesión cerrada...'),
+                            icon: Icon(Icons.assignment_ind_rounded),
+                            actions: [
+                              TextButton(
+                                child: Text("Ok"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )
+                            ],
+                          ));
+                });
+                if (FirebaseAuth.instance.currentUser == null) {
+                  CircularProgressIndicator();
+                  Navigator.pushNamed(context, '/home');
+                } else
+                  return;
+              },
+            )
           ],
         ),
-      ),
-    );
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("users")
+                .where('email', isEqualTo: _user!.email)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              List<DocumentSnapshot> items = snapshot.data!.docs;
+              return Container(
+                child: ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (_, i) {
+                      // ignore: unused_local_variable
+                      Map<String, dynamic> data =
+                          items[i].data() as Map<String, dynamic>;
+
+                      return Container(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              child: Image(
+                                image: AssetImage(
+                                  'assets/images/profile.png',
+                                ),
+                                width: 200,
+                                height: 200,
+                                alignment: Alignment.center,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.supervised_user_circle)),
+                                Text(
+                                  'Nombre: ',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  snapshot.data!.docs[i]['nombre'],
+                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {}, icon: Icon(Icons.email)),
+                                Text('Email: ',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                Text(snapshot.data!.docs[i]['email'],
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic))
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.verified_user)),
+                                Text('Rol: ',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                Text(snapshot.data!.docs[i]['rool'],
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic))
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+              );
+            }));
   }
 }

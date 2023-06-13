@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
 
-class BaresPromoScreen extends StatelessWidget {
+class BaresPromoCliente extends StatelessWidget {
   static Stream<QuerySnapshot> getStream() => FirebaseFirestore.instance
       .collection("bares")
       .orderBy("nombre")
       .snapshots();
 
-  const BaresPromoScreen();
+  const BaresPromoCliente();
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +44,11 @@ class BaresPromoScreen extends StatelessWidget {
                     ),
                     shape: BeveledRectangleBorder(),
                     onTap: () {
-                      Navigator.pushNamed(context, '/promociones', arguments: {
-                        "idBar": snapshot.data?.docs[i].id,
-                        "nombreBar": snapshot.data?.docs[i]["nombre"],
-                      });
+                      Navigator.pushNamed(context, '/promocionesCliente',
+                          arguments: {
+                            "idBar": snapshot.data?.docs[i].id,
+                            "nombreBar": snapshot.data?.docs[i]["nombre"],
+                          });
                     },
                   );
                 }),

@@ -9,6 +9,10 @@ import 'package:cervezapp2/src/authentication/screens/bares/save_page.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/cervezas_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/cervezas_save_page.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/edit_delete_cervezas.dart';
+import 'package:cervezapp2/src/authentication/screens/cliente/bares_list_cliente.dart';
+import 'package:cervezapp2/src/authentication/screens/cliente/bares_promo_cliente.dart';
+import 'package:cervezapp2/src/authentication/screens/cliente/cliente_home.dart';
+import 'package:cervezapp2/src/authentication/screens/cliente/promo_cliente.dart';
 import 'package:cervezapp2/src/authentication/screens/dashboard/bares_dashboard.dart';
 import 'package:cervezapp2/src/authentication/screens/dashboard/dashboard.dart';
 import 'package:cervezapp2/src/authentication/screens/dashboard/reporte_fecha.dart';
@@ -27,8 +31,8 @@ import 'package:cervezapp2/src/constants/colors.dart';
 import 'package:cervezapp2/src/constants/images_strings.dart';
 import 'package:cervezapp2/src/providers/cart_item.dart';
 import 'package:cervezapp2/src/themes/theme.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -36,7 +40,8 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
-//TOKEN: 1//0fa-Ft94twVBlCgYIARAAGA8SNwF-L9IrMW3iFMsoZjb5j9N6K3LANXL_5IPpFRIFWHXUr661lvMyY792rk1on5KY07m_kUcQFLM
+import 'src/authentication/screens/cliente/cervezas_list_cliente.dart';
+
 //flutter run --no-sound-null-safety
 
 void main() async {
@@ -92,6 +97,11 @@ class CervezApp extends StatelessWidget {
           '/dashboard': (context) => DashboardScreen(),
           '/baresDashboard': (context) => BaresDashboardScreen(),
           '/reporteFecha': (context) => ReporteFechaScreen(),
+          '/clienteHome': (context) => ClienteHome(),
+          '/baresListCliente': (context) => BaresListCliente(),
+          '/cervezasListCliente': (context) => CervezasListCliente(),
+          '/baresPromoCliente': (context) => BaresPromoCliente(),
+          '/promocionesCliente': (context) => PromocionesCliente(),
         },
       ),
     );
@@ -233,8 +243,31 @@ class _CervezAppHomeState extends State<CervezAppHome> {
                           MaterialStateProperty.all(Colors.amberAccent),
                       elevation: MaterialStateProperty.all(2),
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/baresDashboard');
+                    onPressed: () async {
+                      if (Auth().currentUser == null) {
+                        CircularProgressIndicator();
+                        await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text(
+                                      'Debe loguearse para ver los reportes'),
+                                  icon: Icon(Icons.assignment_ind_rounded),
+                                  actions: [
+                                    TextButton(
+                                      child: Text(
+                                        "Ok",
+                                        style: TextStyle(color: colorAccent),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                )).then(
+                            (_) => Navigator.pushNamed(context, '/welcome'));
+                      } else {
+                        Navigator.pushNamed(context, '/baresDashboard');
+                      }
                     },
                     child: Text("Reportes")),
               ),
