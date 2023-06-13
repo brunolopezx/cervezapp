@@ -1,6 +1,7 @@
 // @dart=2.19
 import 'dart:async';
 import 'package:cervezapp2/src/authentication/maps/locations.dart';
+import 'package:cervezapp2/src/authentication/repositories/auth_repository/auth.dart';
 import 'package:cervezapp2/src/authentication/screens/auth_page.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/bares_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/bares/edit_delete_bares.dart';
@@ -8,11 +9,16 @@ import 'package:cervezapp2/src/authentication/screens/bares/save_page.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/cervezas_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/cervezas_save_page.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/edit_delete_cervezas.dart';
+import 'package:cervezapp2/src/authentication/screens/dashboard/bares_dashboard.dart';
+import 'package:cervezapp2/src/authentication/screens/dashboard/dashboard.dart';
+import 'package:cervezapp2/src/authentication/screens/dashboard/reporte_fecha.dart';
 import 'package:cervezapp2/src/authentication/screens/faq.dart';
 import 'package:cervezapp2/src/authentication/screens/forgotPassword/forget_password_mail_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/forgotPassword/otp_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/login/login_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/profile.dart';
+import 'package:cervezapp2/src/authentication/screens/promociones/bares_promo.dart';
+import 'package:cervezapp2/src/authentication/screens/promociones/promo_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/signup/sign_up_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/terminos.dart';
 import 'package:cervezapp2/src/authentication/screens/ventas/ventas_screen.dart';
@@ -81,6 +87,11 @@ class CervezApp extends StatelessWidget {
           '/profile': (context) => ProfileScreen(),
           '/faq': (context) => FAQScreen(),
           '/terminos': (context) => TerminosScreen(),
+          '/promociones': (context) => PromocionesScreen(),
+          '/baresPromo': (context) => BaresPromoScreen(),
+          '/dashboard': (context) => DashboardScreen(),
+          '/baresDashboard': (context) => BaresDashboardScreen(),
+          '/reporteFecha': (context) => ReporteFechaScreen(),
         },
       ),
     );
@@ -167,8 +178,31 @@ class _CervezAppHomeState extends State<CervezAppHome> {
                           MaterialStateProperty.all(Colors.amberAccent),
                       elevation: MaterialStateProperty.all(2),
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/bares');
+                    onPressed: () async {
+                      if (Auth().currentUser == null) {
+                        CircularProgressIndicator();
+                        await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text(
+                                      'Debe loguearse para realizar una compra'),
+                                  icon: Icon(Icons.assignment_ind_rounded),
+                                  actions: [
+                                    TextButton(
+                                      child: Text(
+                                        "Ok",
+                                        style: TextStyle(color: colorAccent),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                )).then(
+                            (_) => Navigator.pushNamed(context, '/welcome'));
+                      } else {
+                        Navigator.pushNamed(context, '/bares');
+                      }
                     },
                     child: Text("Bares")),
               ),
@@ -184,22 +218,29 @@ class _CervezAppHomeState extends State<CervezAppHome> {
                       elevation: MaterialStateProperty.all(2),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/bares');
+                      Navigator.pushNamed(context, '/baresPromo');
                     },
                     child: Text("Promociones")),
               ),
-              // Container(
-              //   padding:
-              //       const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
-              //   child: Text(
-              //     'Cuenta: ' + getName().toString(),
-              //     style: TextStyle(
-              //         color: Colors.white, fontStyle: FontStyle.italic),
-              //   ),
-              // ),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                width: double.infinity,
+                child: TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.black),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.amberAccent),
+                      elevation: MaterialStateProperty.all(2),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/baresDashboard');
+                    },
+                    child: Text("Reportes")),
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
                 child: Column(
                   children: [
                     TextButton(

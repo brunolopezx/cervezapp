@@ -8,13 +8,14 @@ import '../../../providers/cart_item.dart';
 
 class CervezasListWidget extends StatelessWidget {
   final idBar = TextEditingController();
-
+  final nombreBar = TextEditingController();
   CervezasListWidget();
 
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context)?.settings.arguments as Map;
     idBar.text = args["idBar"];
+    nombreBar.text = args["nombreBar"];
     final cart = Provider.of<Cart>(context, listen: false);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -25,7 +26,7 @@ class CervezasListWidget extends StatelessWidget {
         },
       ),
       appBar: AppBar(
-        title: Text("Cervezas"),
+        title: Text("Cervezas de " + nombreBar.text),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -60,7 +61,8 @@ class CervezasListWidget extends StatelessWidget {
                               double.parse(snapshot.data?.docs[i]["precio"]),
                               snapshot.data?.docs[i]["nombre"],
                               TimeOfDay.now().toString());
-                          Navigator.pushNamed(context, '/ventas');
+                          Navigator.pushNamed(context, '/ventas',
+                              arguments: {"idBar": idBar.text});
                         },
                         child: Icon(Icons.shopping_cart_outlined)),
                     shape: BeveledRectangleBorder(),

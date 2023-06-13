@@ -52,26 +52,13 @@ class Auth extends ChangeNotifier {
     await FirebaseAuth.instance.signInWithCredential(_credential);
     notifyListeners();
   }
+
+  getUsers() async {}
+
+  // Future sendUserDataToDB() async {
+  //   await FirebaseFirestore.instance.collection("users").add({
+  //     "name": gUser!.displayName.toString(),
+  //     "email": gUser!.email.toString(),
+  //   });
+  // }
 }
-
-
-
-// Future<void> sendUserDataToDB() async {
-//   final FirebaseAuth _auth = FirebaseAuth.instance;
-//   var currentUser = _auth.currentUser;
-
-//   CollectionReference _collectionRef =
-//       FirebaseFirestore.instance.collection("users-form-data");
-//   return _collectionRef
-//       .doc(currentUser!.email)
-//       .set({
-//         "name": _nameController.text,
-//         "phone": _phoneController.text,
-//         "dob": _dobController.text,
-//         "gender": _genderController.text,
-//         "age": _ageController.text,
-//       })
-//       .then((value) => Navigator.push(
-//           context, MaterialPageRoute(builder: (_) => BottomNavController())))
-//       .catchError((error) => print("something is wrong. $error"));
-// }

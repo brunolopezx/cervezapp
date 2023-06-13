@@ -69,10 +69,10 @@ class _FAQScreenState extends State<FAQScreen> {
                 ],
               ),
               ExpansionTile(
-                title: Text('Contanctame al mail'),
+                title: Text('Contanctame al email'),
                 children: [
                   Text(
-                    'brunolopez164@gmail.com',
+                    'Enviar email a: brunolopez164@gmail.com',
                     style: TextStyle(color: colorSecundario),
                   )
                 ],

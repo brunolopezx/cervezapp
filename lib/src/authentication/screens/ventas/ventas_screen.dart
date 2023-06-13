@@ -2,7 +2,9 @@
 
 import 'package:cervezapp2/src/authentication/mercadoPago/mp.dart';
 import 'package:cervezapp2/src/constants/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mercado_pago_integration/core/failures.dart';
 import 'package:mercado_pago_integration/mercado_pago_integration.dart';
 import 'package:mercado_pago_integration/models/payment.dart';
@@ -13,13 +15,19 @@ import '../../../providers/cart_item.dart';
 // ignore: must_be_immutable
 class VentasScreen extends StatelessWidget {
   late Map<String, Object> preference1;
-
+  late Map<String, dynamic> datosBase;
+  final idBar = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
+    final Map args = ModalRoute.of(context)?.settings.arguments as Map;
+    idBar.text = args["idBar"];
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat.yMEd().format(now);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cart"),
+        title: Text("Carrito"),
         centerTitle: true,
       ),
       body: Column(
@@ -60,6 +68,14 @@ class VentasScreen extends StatelessWidget {
                     }
                   ],
                   'payer': {'name': 'Buyer G.', 'email': 'test@gmail.com'},
+                };
+                datosBase = {
+                  'nombre': cart.items.values.toList()[index].nombre,
+                  'total': cart.items.values.toList()[index].precio *
+                      cart.items.values.toList()[index].cantidad,
+                  'fecha': formattedDate.toString(),
+                  'precio_unitario': cart.items.values.toList()[index].precio,
+                  'cantidad': cart.items.values.toList()[index].cantidad,
                 };
 
                 return Dismissible(
@@ -121,6 +137,18 @@ class VentasScreen extends StatelessWidget {
                             debugPrint('Payment => ${payment.paymentId}'));
 
                 Navigator.pop(context);
+
+                FirebaseFirestore.instance
+                    .collection('bares')
+                    .doc(idBar.text)
+                    .collection('ventas')
+                    .add({
+                  'nombre': datosBase.values.elementAt(0).toString(),
+                  'total': datosBase.values.elementAt(1),
+                  'fecha': datosBase.values.elementAt(2).toString(),
+                  'precio_unitario': datosBase.values.elementAt(3),
+                  'cantidad': datosBase.values.elementAt(4)
+                });
               },
             ),
           ),

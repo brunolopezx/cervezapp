@@ -4,23 +4,17 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
 
-class BaresListWidget extends StatelessWidget {
+class BaresDashboardScreen extends StatelessWidget {
   static Stream<QuerySnapshot> getStream() => FirebaseFirestore.instance
       .collection("bares")
       .orderBy("nombre")
       .snapshots();
 
-  const BaresListWidget();
+  const BaresDashboardScreen();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.pushNamed(context, '/saveBares');
-        },
-      ),
       appBar: AppBar(
         title: Text("Bares"),
       ),
@@ -40,8 +34,6 @@ class BaresListWidget extends StatelessWidget {
                 itemBuilder: (_, i) {
                   Map<String, dynamic> data =
                       items[i].data() as Map<String, dynamic>;
-                  print("______");
-                  print(data);
 
                   return ListTile(
                     title: Text(
@@ -50,22 +42,10 @@ class BaresListWidget extends StatelessWidget {
                     ),
                     shape: BeveledRectangleBorder(),
                     onTap: () {
-                      Navigator.pushNamed(context, '/cervezas', arguments: {
+                      Navigator.pushNamed(context, '/dashboard', arguments: {
                         "idBar": snapshot.data?.docs[i].id,
-                        "nombreBar": snapshot.data?.docs[i]['nombre']
+                        "nombreBar": snapshot.data?.docs[i]["nombre"],
                       });
-                    },
-                    onLongPress: () {
-                      Navigator.pushNamed(context, '/editDeleteBares',
-                          arguments: {
-                            "id": snapshot.data?.docs[i].id,
-                            "nombre": snapshot.data?.docs[i]["nombre"],
-                            "ubicacion": snapshot.data?.docs[i]["ubicacion"],
-                            "horarioApertura": snapshot.data?.docs[i]
-                                ["horarioApertura"],
-                            "horarioCierre": snapshot.data?.docs[i]
-                                ["horarioCierre"],
-                          });
                     },
                   );
                 }),

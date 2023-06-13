@@ -8,6 +8,31 @@ import '../repositories/auth_repository/auth.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
   final _user = Auth().currentUser;
+
+  getEmail() {
+    if (_user!.email == null) {
+      return 'N/A';
+    } else {
+      return _user!.email.toString();
+    }
+  }
+
+  getName() {
+    if (_user!.displayName == null) {
+      return 'N/A';
+    } else {
+      return _user!.displayName.toString();
+    }
+  }
+
+  getPhone() {
+    if (_user!.phoneNumber == null) {
+      return 'N/A';
+    } else {
+      return _user!.phoneNumber.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,31 +90,8 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text("Email: " + _user!.email.toString()),
-            Text("Nombre: " + _user!.displayName.toString()),
-            Text("Teléfono: " + _user!.phoneNumber.toString()),
-            // StreamBuilder(
-            //     stream:
-            //         FirebaseFirestore.instance.collection("users").snapshots(),
-            //     builder: (context, snapshot) {
-            //       if (!snapshot.hasData) {
-            //         return Center(
-            //           child: CircularProgressIndicator(),
-            //         );
-            //       }
-            //       List<DocumentSnapshot> users = snapshot.data!.docs;
-
-            //       return Container(child: ListView.builder(itemBuilder: (_, i) {
-            //         Map<String, dynamic> data =
-            //             users[i].data() as Map<String, dynamic>;
-
-            //         if (snapshot.data!.docs[i]['email'] == _user!.email) {}
-            //         return ListTile(
-            //           title: Text(data['email']),
-            //           subtitle: Text(data['nombre']),
-            //         );
-            //       }));
-            //     })
+            Text("Email: " + getEmail()),
+            Text("Nombre: " + getName()),
           ],
         ),
       ),
