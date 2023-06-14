@@ -42,25 +42,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   .collection('ventas')
                   .orderBy('cantidad')
                   .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
+              builder: (context, data) {
+                if (!data.hasData) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 }
-                List itemsCant = snapshot.data!.docs.map((e) {
+                List ventas = data.data!.docs;
+                double totalVentas = 0;
+                // ignore: unused_local_variable
+                int cantidad = 0;
+                // ignore: unused_local_variable
+                int cantVentas = 0;
+
+                for (var v in ventas) {
+                  totalVentas += double.tryParse(v['total'].toString()) ?? 0;
+                  cantidad += int.tryParse(v['cantidad'].toString()) ?? 0;
+                  cantVentas++;
+                }
+
+                List itemsCant = data.data!.docs.map((e) {
                   return {
+                    //'domain': 'Cantidad de ventas: ' + cantVentas.toString(),
+                    //'measure': cantidad
                     'domain': e.data()['nombre'],
-                    'measure': e.data()['cantidad'],
+                    'measure': e.data()['cantidad']
                   };
                 }).toList();
 
                 //itemsCant.sort((a, b) => a['domain'].compareTo(b['domain']));
 
-                List itemsTotal = snapshot.data!.docs.map((e) {
+                List itemsTotal = data.data!.docs.map((e) {
                   return {
-                    'domain': e.data()['nombre'],
-                    'measure': e.data()['total'],
+                    'domain': 'Total vendido',
+                    'measure': totalVentas,
                   };
                 }).toList();
                 //itemsTotal.sort((a, b) => a['domain'].compareTo(b['domain']));
@@ -70,11 +85,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     AspectRatio(
                       aspectRatio: 16 / 9,
                       child: DChartBar(
-                        xAxisTitle: 'Cantidad de cervezas vendidas',
+                        yAxisTitle: 'Cantidad de cervezas',
                         data: [
-                          {
-                            'data': itemsCant,
-                          },
+                          {'data': itemsCant},
                         ],
                         domainLabelPaddingToAxisLine: 16,
                         axisLineTick: 2,
@@ -91,10 +104,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         barValueColor: Colors.white,
                       ),
                     ),
+                    SizedBox(
+                      height: 15,
+                    ),
                     AspectRatio(
                       aspectRatio: 16 / 9,
                       child: DChartBar(
-                        xAxisTitle: 'Total vendido',
+                        //xAxisTitle: 'Monto total vendido',
+                        yAxisTitle: 'Pesos',
                         data: [
                           {
                             'id': 'Bar',
@@ -123,11 +140,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         onPressed: () async {
                           //AGREGAR DATE PICKER QUE LLEVE A OTRA SCREEN CON LOS GRAFICOS DE ESE DIA Y DEJAR ESTE COMO TOTAL GENERAL
                           DateTime? fechaSelecc = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2020),
-                              lastDate: DateTime(2100));
-                          if (fechaSelecc != null) {
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime(2100),
+                          );
+                          if (fechaSelecc == null) {
+                            return;
+                          } else {
                             String formatDate =
                                 DateFormat.yMEd().format(fechaSelecc);
 

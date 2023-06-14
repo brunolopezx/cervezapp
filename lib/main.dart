@@ -9,6 +9,7 @@ import 'package:cervezapp2/src/authentication/screens/bares/save_page.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/cervezas_list_widget.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/cervezas_save_page.dart';
 import 'package:cervezapp2/src/authentication/screens/cervezas/edit_delete_cervezas.dart';
+import 'package:cervezapp2/src/authentication/screens/cliente/bares_info_cliente.dart';
 import 'package:cervezapp2/src/authentication/screens/cliente/bares_list_cliente.dart';
 import 'package:cervezapp2/src/authentication/screens/cliente/bares_promo_cliente.dart';
 import 'package:cervezapp2/src/authentication/screens/cliente/cliente_home.dart';
@@ -102,6 +103,7 @@ class CervezApp extends StatelessWidget {
           '/cervezasListCliente': (context) => CervezasListCliente(),
           '/baresPromoCliente': (context) => BaresPromoCliente(),
           '/promocionesCliente': (context) => PromocionesCliente(),
+          '/baresInfoCliente': (context) => BaresInfoCliente(),
         },
       ),
     );
@@ -227,8 +229,31 @@ class _CervezAppHomeState extends State<CervezAppHome> {
                           MaterialStateProperty.all(Colors.amberAccent),
                       elevation: MaterialStateProperty.all(2),
                     ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/baresPromo');
+                    onPressed: () async {
+                      if (Auth().currentUser == null) {
+                        CircularProgressIndicator();
+                        await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text(
+                                      'Debe loguearse para ver las promos'),
+                                  icon: Icon(Icons.assignment_ind_rounded),
+                                  actions: [
+                                    TextButton(
+                                      child: Text(
+                                        "Ok",
+                                        style: TextStyle(color: colorAccent),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                )).then(
+                            (_) => Navigator.pushNamed(context, '/welcome'));
+                      } else {
+                        Navigator.pushNamed(context, '/baresPromo');
+                      }
                     },
                     child: Text("Promociones")),
               ),

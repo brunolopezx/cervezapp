@@ -48,10 +48,16 @@ class _ReporteFechaScreen extends State<ReporteFechaScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
+                List ventas = snapshot.data!.docs;
+                double totalVentas = 0;
+
+                for (var v in ventas) {
+                  totalVentas += double.tryParse(v['total'].toString()) ?? 0;
+                }
                 List items = snapshot.data!.docs.map((e) {
                   return {
                     'domain': e.data()['fecha'],
-                    'measure': e.data()['total'],
+                    'measure': totalVentas,
                   };
                 }).toList();
 

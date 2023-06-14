@@ -1,6 +1,7 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:cervezapp2/src/authentication/mercadoPago/mp.dart';
+import 'package:cervezapp2/src/authentication/repositories/auth_repository/auth.dart';
 import 'package:cervezapp2/src/constants/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,7 @@ class VentasScreen extends StatelessWidget {
                       'unit_price': cart.items.values.toList()[index].precio,
                     }
                   ],
-                  'payer': {'name': 'Buyer G.', 'email': 'test@gmail.com'},
+                  'payer': {'email': Auth().currentUser!.email},
                 };
                 datosBase = {
                   'nombre': cart.items.values.toList()[index].nombre,

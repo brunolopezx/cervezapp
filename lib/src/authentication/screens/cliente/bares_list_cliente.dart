@@ -50,6 +50,13 @@ class BaresListCliente extends StatelessWidget {
                             "nombreBar": snapshot.data?.docs[i]['nombre']
                           });
                     },
+                    onLongPress: () {
+                      Navigator.pushNamed(context, '/baresInfoCliente',
+                          arguments: {
+                            "idBar": snapshot.data?.docs[i].id,
+                            "nombreBar": snapshot.data?.docs[i]['nombre']
+                          });
+                    },
                   );
                 }),
           );
