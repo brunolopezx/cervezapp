@@ -200,9 +200,9 @@ class _LoginFormState extends State<LoginForm> {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     });
                   }
-                  Navigator.pushNamed(context, '/auth');
+                  //Navigator.pushNamed(context, '/auth');
 
-                  dispose();
+                  //dispose();
                 },
                 child: Text(tLogin.toUpperCase()),
               ),

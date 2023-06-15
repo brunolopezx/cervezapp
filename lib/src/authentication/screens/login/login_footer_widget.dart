@@ -34,7 +34,18 @@ class LoginFooterWidget extends StatelessWidget {
     }
 
     Future sign() async {
-      await Auth().singInWithGoogle();
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+      try {
+        await Auth().singInWithGoogle();
+      } catch (e) {
+        print('error');
+      }
       route();
     }
 

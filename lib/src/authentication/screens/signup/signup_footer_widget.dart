@@ -46,13 +46,6 @@ class _SignUpFooterWidgetState extends State<SignUpFooterWidget> {
       'password': password,
       'rool': rool,
     });
-    // await FirebaseFirestore.instance.collection("users").add({
-    //   'nombre': nombre,
-    //   'telefono': tel,
-    //   'email': email,
-    //   'password': password,
-    //   'rool': rool,
-    // });
   }
 
   @override
@@ -73,6 +66,7 @@ class _SignUpFooterWidgetState extends State<SignUpFooterWidget> {
                 CircularProgressIndicator();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               });
+
               Navigator.pushNamed(context, '/login');
             },
             icon: const Image(

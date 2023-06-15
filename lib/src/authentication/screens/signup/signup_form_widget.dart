@@ -262,9 +262,9 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     });
                     CircularProgressIndicator();
+                    Navigator.pushNamed(context, '/login');
+                    dispose();
                   }
-                  Navigator.pushNamed(context, '/login');
-                  dispose();
                 },
                 child: Text(tSignup.toUpperCase()),
               ),

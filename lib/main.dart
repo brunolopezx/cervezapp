@@ -17,6 +17,7 @@ import 'package:cervezapp2/src/authentication/screens/cliente/promo_cliente.dart
 import 'package:cervezapp2/src/authentication/screens/dashboard/bares_dashboard.dart';
 import 'package:cervezapp2/src/authentication/screens/dashboard/dashboard.dart';
 import 'package:cervezapp2/src/authentication/screens/dashboard/reporte_fecha.dart';
+import 'package:cervezapp2/src/authentication/screens/editarUser.dart';
 import 'package:cervezapp2/src/authentication/screens/faq.dart';
 import 'package:cervezapp2/src/authentication/screens/forgotPassword/forget_password_mail_screen.dart';
 import 'package:cervezapp2/src/authentication/screens/forgotPassword/otp_screen.dart';
@@ -104,6 +105,7 @@ class CervezApp extends StatelessWidget {
           '/baresPromoCliente': (context) => BaresPromoCliente(),
           '/promocionesCliente': (context) => PromocionesCliente(),
           '/baresInfoCliente': (context) => BaresInfoCliente(),
+          '/editarUser': (context) => EditUser(),
         },
       ),
     );

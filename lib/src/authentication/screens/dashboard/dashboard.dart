@@ -63,14 +63,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                 List itemsCant = data.data!.docs.map((e) {
                   return {
-                    //'domain': 'Cantidad de ventas: ' + cantVentas.toString(),
-                    //'measure': cantidad
-                    'domain': e.data()['nombre'],
-                    'measure': e.data()['cantidad']
+                    'domain': 'Cantidad de ventas: ' + cantVentas.toString(),
+                    'measure': cantidad
+                    // 'domain': e.data()['nombre'],
+                    // 'measure': e.data()['cantidad']
                   };
                 }).toList();
-
-                //itemsCant.sort((a, b) => a['domain'].compareTo(b['domain']));
 
                 List itemsTotal = data.data!.docs.map((e) {
                   return {
@@ -78,7 +76,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     'measure': totalVentas,
                   };
                 }).toList();
-                //itemsTotal.sort((a, b) => a['domain'].compareTo(b['domain']));
 
                 return Column(
                   children: [
@@ -136,9 +133,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     SizedBox(
                       height: 30,
                     ),
+                    SizedBox(
+                        height: 15,
+                        child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('users')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              List users = snapshot.data!.docs;
+                              int countUsers = 0;
+                              // ignore: unused_local_variable
+                              for (var user in users) {
+                                countUsers++;
+                              }
+                              return Text(
+                                'Cantidad de usuarios totales : ' +
+                                    countUsers.toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              );
+                            })),
+                    SizedBox(
+                      height: 30,
+                    ),
                     ElevatedButton(
                         onPressed: () async {
-                          //AGREGAR DATE PICKER QUE LLEVE A OTRA SCREEN CON LOS GRAFICOS DE ESE DIA Y DEJAR ESTE COMO TOTAL GENERAL
                           DateTime? fechaSelecc = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),

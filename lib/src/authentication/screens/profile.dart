@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../constants/colors.dart';
 import '../repositories/auth_repository/auth.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -40,6 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  final nombreControler = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,6 +156,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         TextStyle(fontStyle: FontStyle.italic))
                               ],
                             ),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.phone_android)),
+                                Text('Teléfono: ',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                Text(snapshot.data!.docs[i]['telefono'],
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic))
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ElevatedButton.icon(
+                                  style: OutlinedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(),
+                                    backgroundColor: colorPrincipal,
+                                    foregroundColor: colorSecundario,
+                                    side: BorderSide(color: colorSecundario),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/editarUser',
+                                        arguments: {
+                                          'nombre': snapshot.data!.docs[i]
+                                              ['nombre'],
+                                          'telefono': snapshot
+                                              .data!.docs[i]['telefono']
+                                              .toString(),
+                                          'email': snapshot.data!.docs[i]
+                                              ['email']
+                                        });
+                                  },
+                                  label: Text('Editar usuario'),
+                                  icon: Icon(
+                                    Icons.edit,
+                                    size: 18,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       );
