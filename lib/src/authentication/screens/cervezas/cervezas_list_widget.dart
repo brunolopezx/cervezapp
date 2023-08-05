@@ -61,8 +61,10 @@ class CervezasListWidget extends StatelessWidget {
                               double.parse(snapshot.data?.docs[i]["precio"]),
                               snapshot.data?.docs[i]["nombre"],
                               TimeOfDay.now().toString());
-                          Navigator.pushNamed(context, '/ventas',
-                              arguments: {"idBar": idBar.text});
+                          Navigator.pushNamed(context, '/ventas', arguments: {
+                            "idBar": idBar.text,
+                            "nombreBar": nombreBar.text
+                          });
                         },
                         child: Icon(Icons.shopping_cart_outlined)),
                     shape: BeveledRectangleBorder(),

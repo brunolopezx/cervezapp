@@ -66,20 +66,22 @@ class PromocionesScreen extends StatelessWidget {
                                 icon: Icon(Icons.question_mark),
                                 actions: [
                                   TextButton(
-                                      onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection('bares')
-                                            .doc(idBar.text)
-                                            .collection('promociones')
-                                            .doc(snapshot.data?.docs[i].id)
-                                            .update({
-                                          'activo': true,
-                                        });
-                                      },
-                                      child: Text(
-                                        'Sí',
-                                        style: TextStyle(color: Colors.black),
-                                      )),
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection('bares')
+                                          .doc(idBar.text)
+                                          .collection('promociones')
+                                          .doc(snapshot.data?.docs[i].id)
+                                          .update({
+                                        'activo': true,
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'Sí',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
                                   TextButton(
                                       onPressed: () {
                                         FirebaseFirestore.instance
@@ -90,6 +92,7 @@ class PromocionesScreen extends StatelessWidget {
                                             .update({
                                           'activo': false,
                                         });
+                                        Navigator.pop(context);
                                       },
                                       child: Text(
                                         'No',

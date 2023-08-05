@@ -16,11 +16,13 @@ class VentasScreen extends StatelessWidget {
   late Map<String, Object> preference1;
   late Map<String, dynamic> datosBase;
   final idBar = TextEditingController();
+  final nombreBar = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
     final Map args = ModalRoute.of(context)?.settings.arguments as Map;
     idBar.text = args["idBar"];
+    nombreBar.text = args["nombreBar"];
     DateTime now = DateTime.now();
     String formattedDate = DateFormat.yMEd().format(now);
 
@@ -59,22 +61,27 @@ class VentasScreen extends StatelessWidget {
                 preference1 = {
                   'items': [
                     {
-                      'title': cart.items.values.toList()[index].nombre,
+                      'title': nombreBar.text,
                       'description': 'Cerveza',
                       'quantity': cart.items.values.toList()[index].cantidad,
                       'currency_id': 'ARS',
-                      'unit_price': cart.items.values.toList()[index].precio,
+                      'unit_price': cart.totalAmount,
                     }
                   ],
-                  'payer': {'name': 'N/A', 'email': 'Comprador@test.com'},
+                  'payer': {'name': 'Comprador', 'email': 'Comprador@test.com'},
+                  'payment_methods': {
+                    "excluded_payment_types": [
+                      {"id": "atm"},
+                      {"id": "debit_card"}
+                    ]
+                  },
                 };
                 datosBase = {
-                  'nombre': cart.items.values.toList()[index].nombre,
-                  'total': cart.items.values.toList()[index].precio *
-                      cart.items.values.toList()[index].cantidad,
+                  // 'nombre': cart.items.values.toList()[index].nombre,
+                  'total': cart.totalAmount,
                   'fecha': formattedDate.toString(),
-                  'precio_unitario': cart.items.values.toList()[index].precio,
-                  'cantidad': cart.items.values.toList()[index].cantidad,
+                  // 'precio_unitario': cart.items.values.toList()[index].precio,
+                  'cantidad': cart.cantidadTotal,
                 };
 
                 return Dismissible(
@@ -141,11 +148,11 @@ class VentasScreen extends StatelessWidget {
                     .doc(idBar.text)
                     .collection('ventas')
                     .add({
-                  'nombre': datosBase.values.elementAt(0).toString(),
-                  'total': datosBase.values.elementAt(1),
-                  'fecha': datosBase.values.elementAt(2).toString(),
-                  'precio_unitario': datosBase.values.elementAt(3),
-                  'cantidad': datosBase.values.elementAt(4)
+                  // 'nombre': datosBase.values.elementAt(0).toString(),
+                  'total': datosBase.values.elementAt(0),
+                  'fecha': datosBase.values.elementAt(1).toString(),
+                  // 'precio_unitario': datosBase.values.elementAt(3),
+                  'cantidad': datosBase.values.elementAt(2)
                 });
               },
             ),

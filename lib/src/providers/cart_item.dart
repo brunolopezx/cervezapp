@@ -26,6 +26,14 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
+  int get cantidadTotal {
+    var canti = 0;
+    _items.forEach((key, value) {
+      canti += value.cantidad;
+    });
+    return canti;
+  }
+
   double get totalAmount {
     var total = 0.0;
     _items.forEach((key, cartItem) {
