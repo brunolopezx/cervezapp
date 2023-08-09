@@ -2,6 +2,7 @@ import 'package:cervezapp2/src/constants/sizes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/string_extensions.dart';
 
 import '../../../constants/texts_strings.dart';
 import '../../repositories/auth_repository/auth.dart';
@@ -164,6 +165,8 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               validator: (value) {
                 if (value!.isEmpty) {
                   return "Ingrese su email";
+                } else if (value.isEmail == false) {
+                  return "Ingrese el formato de email";
                 }
                 return null;
               },

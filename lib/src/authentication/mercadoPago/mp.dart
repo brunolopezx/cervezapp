@@ -30,3 +30,5 @@ final Map<String, Object> preferenceMap = {
 //APRO    DNI: 12345678
 //FUND    (FONDOS INSUFICIENTES)
 //SECU    (CCV INVALIDO)
+
+//flutter run --no-sound-null-safety

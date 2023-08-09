@@ -68,6 +68,7 @@ class _ReporteFechaScreen extends State<ReporteFechaScreen> {
                     AspectRatio(
                       aspectRatio: 8 / 6,
                       child: DChartBar(
+                        yAxisTitle: 'Pesos',
                         xAxisTitle: 'Total vendido por día',
                         data: [
                           {
@@ -85,7 +86,7 @@ class _ReporteFechaScreen extends State<ReporteFechaScreen> {
                         showBarValue: true,
                         showDomainLine: true,
                         barValuePosition: BarValuePosition.inside,
-                        barValue: (barData, index) => '${barData['measure']}',
+                        barValue: (barData, index) => '${barData['measure']} ',
                         barValueFontSize: 12,
                         barValueColor: Colors.white,
                       ),

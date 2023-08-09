@@ -102,8 +102,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 15,
+                      height: 20,
                     ),
+                    // SizedBox(
+                    //   height: 40,
+                    //   child: DChartSingleBar(
+                    //     forgroundColor: Colors.blue,
+                    //     value: totalVentas,
+                    //     max: totalVentas + totalVentas,
+                    //     forgroundLabel: Text('$totalVentas'),
+                    //     backgroundLabel: Text('Total Vendido'),
+                    //   ),
+                    // ),
                     AspectRatio(
                       aspectRatio: 16 / 9,
                       child: DChartBar(

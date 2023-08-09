@@ -47,7 +47,7 @@ class _FAQScreenState extends State<FAQScreen> {
                     title: Text(
                       'Tienes alguna duda o quieres comunicarte con nosotros?',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -99,8 +99,7 @@ class _FAQScreenState extends State<FAQScreen> {
                   Text(
                     "Los métodos de pago aceptados son: \n" +
                         " -Tarjeta de crédito \n" +
-                        " -Tarjeta de débito \n" +
-                        " -Efectivo en caja",
+                        " -Efectivo en caja, previamente realizando la compra en la app",
                     style: TextStyle(color: Colors.white),
                   ),
                 ],
@@ -136,7 +135,7 @@ class _FAQScreenState extends State<FAQScreen> {
                 collapsedShape: OutlineInputBorder(),
                 shape: OutlineInputBorder(),
                 title: Text(
-                  'Contanctame al email',
+                  'Contáctanos',
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       fontWeight: FontWeight.bold,

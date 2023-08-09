@@ -58,6 +58,14 @@ class CervezasListCliente extends StatelessWidget {
                               arguments: {"idBar": idBar.text});
                         },
                         child: Icon(Icons.shopping_cart_outlined)),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/cervezasInfoCliente',
+                          arguments: {
+                            "idCerveza": snapshot.data?.docs[i].id,
+                            "nombreCer": snapshot.data?.docs[i]['nombre'],
+                            "idBar": idBar.text
+                          });
+                    },
                     shape: BeveledRectangleBorder(),
                   );
                 }),

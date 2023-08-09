@@ -17,30 +17,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final _user = Auth().currentUser;
 
-  getEmail() {
-    if (_user!.email == null) {
-      return 'N/A';
-    } else {
-      return _user!.email.toString();
-    }
-  }
-
-  getName() {
-    if (_user!.displayName == null) {
-      return 'N/A';
-    } else {
-      return _user!.displayName;
-    }
-  }
-
-  getPhone() {
-    if (_user!.phoneNumber == null) {
-      return 'N/A';
-    } else {
-      return _user!.phoneNumber.toString();
-    }
-  }
-
   final nombreControler = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -54,23 +30,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Icons.logout,
                 color: Colors.black,
               ),
-              onPressed: () async {
-                await Auth().desloguear().then((_) async {
-                  await showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: Text('Sesión cerrada...'),
-                            icon: Icon(Icons.assignment_ind_rounded),
-                            actions: [
-                              TextButton(
-                                child: Text("Ok"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              )
-                            ],
-                          ));
-                });
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text('¿Desea cerrar sesión?'),
+                          icon: Icon(Icons.assignment_ind_rounded),
+                          actions: [
+                            TextButton(
+                              child: Text(
+                                "Sí",
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                              onPressed: () async {
+                                await Auth().desloguear();
+                                var snackBar = SnackBar(
+                                  content: Text("Sesión cerrada"),
+                                  action: SnackBarAction(
+                                      label: "Ok",
+                                      textColor: Colors.blue,
+                                      onPressed: () {}),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                                Navigator.pushNamed(context, '/home');
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                'No',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            )
+                          ],
+                        ));
                 if (FirebaseAuth.instance.currentUser == null) {
                   CircularProgressIndicator();
                   Navigator.pushNamed(context, '/home');
@@ -164,7 +160,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Text('Teléfono: ',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
-                                Text(snapshot.data!.docs[i]['telefono'],
+                                Text(
+                                    snapshot.data!.docs[i]['telefono']
+                                        .toString(),
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic))
                               ],

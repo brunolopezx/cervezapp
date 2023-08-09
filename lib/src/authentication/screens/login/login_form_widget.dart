@@ -4,6 +4,7 @@ import 'package:cervezapp2/src/constants/texts_strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../repositories/auth_repository/auth.dart';
 
@@ -37,17 +38,23 @@ class _LoginFormState extends State<LoginForm> {
     try {
       await Auth().signInWithEmailAndPassword(
           email: _email.text, password: _password.text);
+      var snackBar = SnackBar(
+        content: Text("Logueado con éxito"),
+        action: SnackBarAction(
+            label: "Ok", textColor: Colors.blue, onPressed: () {}),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       route();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         wrongEmailMessage();
-        Navigator.pop(context);
+        // Navigator.pop(context);
       } else if (e.code == 'wrong-password') {
         wrongPasswordMessage();
-        Navigator.pop(context);
+        // Navigator.pop(context);
       } else if (e.code == 'email-already-in-use') {
-        emailAlreadyInUseMessage();
-        Navigator.pop(context);
+        // emailAlreadyInUseMessage();
+        // Navigator.pop(context);
       }
     }
   }
@@ -60,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
               backgroundColor: Colors.black,
               title: Text(
                 'Email incorrecto',
-                style: TextStyle(color: Colors.yellow),
+                style: TextStyle(color: Colors.blue),
               ));
         });
   }
@@ -73,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
               backgroundColor: Colors.black,
               title: Text(
                 'Contraseña incorrecta',
-                style: TextStyle(color: Colors.yellow),
+                style: TextStyle(color: Colors.blue),
               ));
         });
   }
@@ -107,6 +114,8 @@ class _LoginFormState extends State<LoginForm> {
               validator: (value) {
                 if (value!.isEmpty) {
                   return "Ingrese el email";
+                } else if (value.isEmail == false) {
+                  return "Ingrese el formato de email";
                 }
                 return null;
               },
@@ -157,27 +166,29 @@ class _LoginFormState extends State<LoginForm> {
               alignment: Alignment.centerRight,
               child: TextButton(
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                              title: Text(
-                                'Se ha enviado un mail de recuperación. \n'
-                                'Revise su correo',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              icon: Icon(Icons.assignment_ind_rounded),
-                              actions: [
-                                TextButton(
-                                  child: Text(
-                                    "Ok",
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )
-                              ],
-                            ));
+                    if (_FormKey.currentState!.validate()) {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: Text(
+                                  'Se ha enviado un mail de recuperación. \n'
+                                  'Revise su correo',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                icon: Icon(Icons.assignment_ind_rounded),
+                                actions: [
+                                  TextButton(
+                                    child: Text(
+                                      "Ok",
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              ));
+                    }
                   },
                   child: Text(
                     tForgetPassword,
@@ -189,16 +200,7 @@ class _LoginFormState extends State<LoginForm> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_FormKey.currentState!.validate()) {
-                    await signInWithEmailAndPassword().then((_) {
-                      var snackBar = SnackBar(
-                        content: Text("Logueado con éxito"),
-                        action: SnackBarAction(
-                            label: "Ok",
-                            textColor: Colors.blue,
-                            onPressed: () {}),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    });
+                    await signInWithEmailAndPassword().then((_) {});
                   }
                   //Navigator.pushNamed(context, '/auth');
 

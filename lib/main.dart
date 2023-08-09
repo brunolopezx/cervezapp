@@ -12,6 +12,7 @@ import 'package:cervezapp2/src/authentication/screens/cervezas/edit_delete_cerve
 import 'package:cervezapp2/src/authentication/screens/cliente/bares_info_cliente.dart';
 import 'package:cervezapp2/src/authentication/screens/cliente/bares_list_cliente.dart';
 import 'package:cervezapp2/src/authentication/screens/cliente/bares_promo_cliente.dart';
+import 'package:cervezapp2/src/authentication/screens/cliente/cervezas_info_cliente.dart';
 import 'package:cervezapp2/src/authentication/screens/cliente/cliente_home.dart';
 import 'package:cervezapp2/src/authentication/screens/cliente/promo_cliente.dart';
 import 'package:cervezapp2/src/authentication/screens/dashboard/bares_dashboard.dart';
@@ -75,6 +76,7 @@ class CervezApp extends StatelessWidget {
         darkTheme: TAppTheme.darkTheme,
         themeMode: ThemeMode.system,
         home: CervezAppHome(),
+        debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
           '/home': (context) => CervezAppHome(),
@@ -106,6 +108,7 @@ class CervezApp extends StatelessWidget {
           '/promocionesCliente': (context) => PromocionesCliente(),
           '/baresInfoCliente': (context) => BaresInfoCliente(),
           '/editarUser': (context) => EditUser(),
+          '/cervezasInfoCliente': (context) => CervezasInfoCliente(),
         },
       ),
     );
